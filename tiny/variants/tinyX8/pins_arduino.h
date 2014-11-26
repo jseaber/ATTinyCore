@@ -32,7 +32,7 @@
 
 #define TUNED_OSCCAL_VALUE                        OSCCAL
 
-#define NUM_DIGITAL_PINS            20
+#define NUM_DIGITAL_PINS            25
 #define NUM_ANALOG_INPUTS           6
 #define analogInputToDigitalPin(p)  ((p < 6) ? (p) + 14 : -1)
 
@@ -47,9 +47,9 @@ static const uint8_t MOSI = 11;
 static const uint8_t MISO = 12;
 static const uint8_t SCK  = 13;
 
-static const uint8_t SDA = 18;
-static const uint8_t SCL = 19;
-static const uint8_t LED_BUILTIN = 13;
+#static const uint8_t SDA = 18;
+#static const uint8_t SCL = 19;
+#static const uint8_t LED_BUILTIN = 13;
 
 static const uint8_t A0 = 14;
 static const uint8_t A1 = 15;
@@ -58,11 +58,10 @@ static const uint8_t A3 = 17;
 static const uint8_t A4 = 18;
 static const uint8_t A5 = 19;
 
-#define digitalPinToPCICR(p)    (((p) >= 0 && (p) <= 19) ? (&PCICR) : ((uint8_t *)0))
-#define digitalPinToPCICRbit(p) (((p) <= 7) ? 2 : (((p) <= 13) ? 0 : (((p) <= 19) ? 1 : 3)))
-#define digitalPinToPCMSK(p)    (((p) <= 7) ? (&PCMSK2) : (((p) <= 13) ? (&PCMSK0) : (((p) <= 19) ? (&PCMSK1) : (((p) <= 23) ? (&PCMSK3) : ((uint8_t *)0)))))
-#define digitalPinToPCMSKbit(p) (((p) <= 7) ? (p) : (((p) <= 13) ? ((p) - 8) : (((p) <= 19) ? ((p) - 14) : ((p) - 20))))
-
+#define digitalPinToPCICR(p)    (((p) >= 0 && (p) <= 24) ? (&PCICR) : ((uint8_t *)0))
+#define digitalPinToPCICRbit(p) (((p) <= 7) ? 2 : (((p) <= 13) ? 0 : (((p) <= 25) ? 1 : 3)))
+#define digitalPinToPCMSK(p)    (((p) <= 7) ? (&PCMSK2) : (((p) <= 13) ? (&PCMSK0) : (((p) <= 25) ? (&PCMSK1) : (((p) <= 25) ? (&PCMSK3) : ((uint8_t *)0)))))
+#define digitalPinToPCMSKbit(p) (((p) <= 7) ? (p) : (((p) <= 13) ? ((p) - 8) : (((p) <= 25) ? ((p) - 14) : ((p) - 26))))
 #ifdef ARDUINO_MAIN
 
 // On the Arduino board, digital pins are also used
@@ -119,30 +118,32 @@ const uint16_t PROGMEM port_to_input_PGM[] = {
 };
 
 const uint8_t PROGMEM digital_pin_to_port_PGM[] = {
-	PD, /* 0 */
-	PD,
-	PD,
-	PD,
-	PD,
-	PD,
-	PD,
-	PD,
-	PB, /* 8 */
-	PB,
-	PB,
-	PB,
-	PB,
-	PB,
-	PC, /* 14 */
-	PC,
-	PC,
-	PC,
-	PC,
-	PC,
-	PA, /* 20 */
-	PA,
-	PA,
-	PA,
+	PD, /* PD0 - D 0 */
+	PD, /* PD1 - D 1 */
+	PD, /* PD2 - D 2 */
+	PD, /* PD3 - D 3 */
+	PD, /* PD4 - D 4 */
+	PD, /* PD5 - D 5 */ 
+	PD, /* PD6 - D 6 */
+	PD, /* PD7 - D 7 */
+	PB, /* PB0 - D 8 */
+	PB, /* PB1 - D 9 */
+	PB, /* PB2 - D 10 */
+	PB, /* PB3 - D 11 */
+	PB, /* PB4 - D 12 */
+	PB, /* PB5 - D 13 */
+	PC, /* PC0 - D 14 */
+	PC, /* PC1 - D 15 */
+	PC, /* PC2 - D 16 */
+	PC, /* PC3 - D 17 */
+	PC, /* PC4 - D 18 */
+	PC, /* PC5 - D 19 */
+	PC, /* PC6 - D 20 */
+	PC, /* PC7 - D 21 */
+	PA, /* PA0 - D 22 */
+	PA, /* PA1 - D 23 */
+	PA, /* PA2 - D 24 */
+	PA, /* PA3 - D 25 */
 };
 
 const uint8_t PROGMEM digital_pin_to_bit_mask_PGM[] = {
@@ -166,6 +167,8 @@ const uint8_t PROGMEM digital_pin_to_bit_mask_PGM[] = {
 	_BV(3),
 	_BV(4),
 	_BV(5),
+	_BV(6),
+	_BV(7),
 	_BV(0), /* 20, port A */
 	_BV(1),
 	_BV(2),
@@ -187,13 +190,15 @@ const uint8_t PROGMEM digital_pin_to_timer_PGM[] = {
 	NOT_ON_TIMER,
 	NOT_ON_TIMER,
 	NOT_ON_TIMER,
-	NOT_ON_TIMER, /* 14 - port C */
+	NOT_ON_TIMER, /*  - port C */
 	NOT_ON_TIMER,
 	NOT_ON_TIMER,
 	NOT_ON_TIMER,
 	NOT_ON_TIMER,
 	NOT_ON_TIMER,
-	NOT_ON_TIMER, /* 20 - port A */
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER, /*  - port A */
 	NOT_ON_TIMER,
 	NOT_ON_TIMER,
 	NOT_ON_TIMER,
